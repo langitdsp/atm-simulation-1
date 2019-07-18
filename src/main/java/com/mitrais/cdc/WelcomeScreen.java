@@ -11,15 +11,22 @@ import com.mitrais.cdc.utils.Utils;
  */
 public class WelcomeScreen
 {
-    public void start(ArrayList<Account> accounts){
-      Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
+    ArrayList<Account> accounts;
+
+    public WelcomeScreen(ArrayList<Account> accounts, Scanner scanner) {
+      this.accounts = accounts;
+      this.scanner = scanner;
+    }
+
+    public void start(){
       String accountNumber = "";
       String pin = "";
       Account account = new Account();
   
         // Enter account number
         System.out.println("Enter Account Number");
-        accountNumber = scanner.nextLine();
+        accountNumber = this.scanner.nextLine();
     
         if(!Utils.isLengthValid(accountNumber)){
             System.out.println("Account Number should have 6 digits number");
@@ -33,7 +40,7 @@ public class WelcomeScreen
 
         // Enter account number
         System.out.println("Enter PIN");
-        pin = scanner.nextLine();
+        pin = this.scanner.nextLine();
         
         if(!Utils.isLengthValid(pin)){
             System.out.println("PIN should have 6 digits number");
@@ -46,7 +53,7 @@ public class WelcomeScreen
         }
 
         Boolean isFound = false;
-        for(Account acc: accounts){
+        for(Account acc: this.accounts){
           if(acc.getAccountNumber().equals(accountNumber) && acc.getPin().equals(pin)){
               isFound = true;
               account = acc;
@@ -57,10 +64,8 @@ public class WelcomeScreen
             System.out.println("Invalid Account Number/PIN");
         }
 
-        scanner.close();
-
-        TransactionScreen transactionScreen = new TransactionScreen();
-        transactionScreen.start(account);
+        TransactionScreen transactionScreen = new TransactionScreen(account, this.scanner);
+        transactionScreen.start();
   
       
     }

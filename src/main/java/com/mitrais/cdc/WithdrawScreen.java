@@ -6,9 +6,15 @@ import com.mitrais.cdc.model.Account;
 
 public class WithdrawScreen
 {
-  public void start(Account account){
-    Scanner scanner = new Scanner(System.in);
+  Account account;
+  Scanner scanner;
 
+  public WithdrawScreen(Account account, Scanner scanner){
+    this.account = account;
+    this.scanner = scanner;
+  }
+
+  public void start(){
     int option;
 
     System.out.println("\n\nWithdraw");
@@ -20,19 +26,20 @@ public class WithdrawScreen
     System.out.println(" Exit");
     System.out.println("Please choose option[3]: ");
 
-    option = scanner.nextInt();
+    option = this.scanner.nextInt();
 
     switch(option) {
       case 1: 
-        account.setBalance(account.getBalance() - 10);
+        this.account.setBalance(this.account.getBalance() - 10);
         break;
       case 2: 
-      account.setBalance(account.getBalance() - 50);
+        this.account.setBalance(this.account.getBalance() - 50);
         break;
       case 3: 
-      account.setBalance(account.getBalance() - 100);
+        this.account.setBalance(this.account.getBalance() - 100);
         break;
       case 4: 
+        otherWithdraw(this.account);
         break;
       case 5: 
         break;
@@ -40,12 +47,21 @@ public class WithdrawScreen
         break;
         
     }
+  }
 
+  public void otherWithdraw(Account account){
 
+    System.out.println("\n\nOther Withdraw");
+    System.out.println("Enter amount to withdraw");
 
+    int amount = this.scanner.nextInt();
 
-
-    scanner.close();
-
+    if(amount > 1000 || amount%10 != 0){
+      System.out.println("Invalid amount");
+    }else if(amount > account.getBalance()){
+      System.out.println("Insufficeint balance $" + amount);
+    }else{
+      account.setBalance(account.getBalance() - amount);
+    }
   }
 }

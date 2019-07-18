@@ -6,7 +6,15 @@ import com.mitrais.cdc.model.Account;
 
 public class TransactionScreen
 {
-  public void start(Account account){
+  Account account;
+  Scanner scanner;
+
+  public TransactionScreen(Account account, Scanner scanner){
+    this.account = account;
+    this.scanner = scanner;
+  }
+
+  public void start(){
     Scanner scanner = new Scanner(System.in);
 
     int option;
@@ -21,8 +29,7 @@ public class TransactionScreen
 
     switch(option) {
       case 1:
-        WithdrawScreen withdrawScreen = new WithdrawScreen();
-        withdrawScreen.start(account);
+        WithdrawScreen withdrawScreen = new WithdrawScreen(this.account, this.scanner);
         break;
       case 2:
         break;
@@ -31,10 +38,6 @@ public class TransactionScreen
       default:
         break;
     }
-
-
-
-
 
     scanner.close();
 
