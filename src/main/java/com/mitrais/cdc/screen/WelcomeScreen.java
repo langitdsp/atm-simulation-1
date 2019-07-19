@@ -3,6 +3,7 @@ package com.mitrais.cdc.screen;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.mitrais.cdc.data.Accounts;
 import com.mitrais.cdc.model.Account;
 import com.mitrais.cdc.utils.Utils;
 
@@ -10,18 +11,16 @@ import com.mitrais.cdc.utils.Utils;
  * Welcome screen
  */
 public class WelcomeScreen {
-    Scanner scanner;
-    ArrayList<Account> accounts;
+    private Scanner scanner;
+    private Accounts accounts;
 
     public WelcomeScreen(Scanner scanner) {
-        // Create initial data
-        this.accounts = new ArrayList<Account>();
-        this.accounts.add(new Account("John Doe", "012108", 100, "112233"));
-        this.accounts.add(new Account("Jane Doe", "932012", 30, "112244"));
+        this.accounts = Accounts.getInstance();
         this.scanner = scanner;
     }
 
     public void start() {
+        Accounts accounts = Accounts.getInstance();
         String accountNumber = "";
         String pin = "";
         Account account = new Account();
@@ -55,15 +54,9 @@ public class WelcomeScreen {
             return;
         }
 
-        Boolean isFound = false;
-        for (Account acc : this.accounts) {
-            if (acc.getAccountNumber().equals(accountNumber) && acc.getPin().equals(pin)) {
-                isFound = true;
-                account = acc;
-            }
-        }
+        account = accounts.loginAccount(accountNumber, pin);
 
-        if (!isFound) {
+        if (account == null) {
             System.out.println("Invalid Account Number/PIN");
             return;
         }

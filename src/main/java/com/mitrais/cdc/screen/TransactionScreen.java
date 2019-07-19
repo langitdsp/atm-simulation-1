@@ -5,8 +5,8 @@ import java.util.Scanner;
 import com.mitrais.cdc.model.Account;
 
 public class TransactionScreen {
-    Account account;
-    Scanner scanner;
+    private Account account;
+    private Scanner scanner;
 
     public TransactionScreen(Account account, Scanner scanner) {
         this.account = account;

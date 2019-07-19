@@ -3,11 +3,12 @@ package com.mitrais.cdc.screen;
 import java.util.Scanner;
 
 import com.mitrais.cdc.model.Account;
+import com.mitrais.cdc.utils.Utils;
 
 public class WithdrawScreen {
-    Account account;
-    Scanner scanner;
-    SummaryScreen summaryScreen;
+    private Account account;
+    private Scanner scanner;
+    private SummaryScreen summaryScreen;
 
     public WithdrawScreen(Account account, Scanner scanner) {
         this.account = account;
@@ -71,15 +72,21 @@ public class WithdrawScreen {
         System.out.println("\n\nOther Withdraw");
         System.out.println("Enter amount to withdraw");
 
-        int amount = Integer.parseInt(this.scanner.nextLine());
-
-        if (amount > 1000 || amount % 10 != 0) {
+        String amount = this.scanner.nextLine();
+        if(!Utils.isNumericOnlyValid(amount)){
             System.out.println("Invalid amount");
-        } else if (amount > this.account.getBalance()) {
+            return;
+        }
+
+        int amountInt = Integer.parseInt(amount);
+
+        if (amountInt > 1000 || amountInt % 10 != 0) {
+            System.out.println("Invalid amount");
+        } else if (amountInt > this.account.getBalance()) {
             System.out.println("Insufficeint balance $" + amount);
         } else {
-            this.account.setBalance(account.getBalance() - amount);
-            this.summaryScreen.start(amount);
+            this.account.setBalance(account.getBalance() - amountInt);
+            this.summaryScreen.start(amountInt);
         }
     }
 }

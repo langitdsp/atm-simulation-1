@@ -1,21 +1,27 @@
 package com.mitrais.cdc.screen;
 
+import com.mitrais.cdc.data.Accounts;
 import com.mitrais.cdc.model.Account;
+import com.mitrais.cdc.utils.Utils;
 
 import java.util.Scanner;
 
 public class FundTransferScreen {
-    Scanner scanner;
-    Account account;
+    final int maxTransferAmount = 1000;
+    final int minTransferAmount = 1;
+    private Scanner scanner;
+    private Account account;
+    private Accounts accounts;
 
     public FundTransferScreen(Account account, Scanner scanner) {
         this.account = account;
         this.scanner = scanner;
+        this.accounts = Accounts.getInstance();
     }
 
     public void start(){
         String destinationAccountNumber = "";
-        int amount = 0;
+        String amount = "";
         String referenceNo = "";
         int option;
 
@@ -31,16 +37,23 @@ public class FundTransferScreen {
         System.out.println("press enter to continue or");
         System.out.println("press cancel (Esc) to go back to Transaction : ");
 
-        amount = Integer.parseInt(this.scanner.nextLine());
+        amount = this.scanner.nextLine();
+
+        System.out.println("Please enter reference number (Optional) and");
+        System.out.println("press enter to continue or");
+        System.out.println("press cancel (Esc) to go back to Transaction : ");
+
+        referenceNo = this.scanner.nextLine();
 
         // Transfer confirmation
         System.out.println("\n\nTransfer Confirmation");
         System.out.printf("%-20s : %s %n", "Destination Account", destinationAccountNumber);
-        System.out.printf("%-20s : %d %n", "Transfer amount", amount);
+        System.out.printf("%-20s : %s %n", "Transfer amount", amount);
         System.out.printf("%-20s : %s %n", "Reference Number", referenceNo);
 
-        System.out.printf("\n1. Confirm Trx");
-        System.out.println("Cancel Trx");
+        System.out.println("\n1. Confirm Trx");
+        System.out.println("2. Cancel Trx");
+        System.out.println("Choose option[2]");
 
         option = Integer.parseInt(this.scanner.nextLine());
 
@@ -56,7 +69,55 @@ public class FundTransferScreen {
 
     }
 
-    private void confirmTrx(String destinationAccountNumber, int amount, String referenceNo){
+    private void confirmTrx(String destinationAccountNumber, String amount, String referenceNo){
+        FundTransferSummaryScreen fundTransferSummaryScreen;
 
+        int transferAmount = 0;
+        // Check destinationAccountNumber format
+        if (!Utils.isNumericOnlyValid(destinationAccountNumber)) {
+            System.out.println("Invalid account");
+            return;
+        }
+
+        // find destination account
+        Account destinationAccount = accounts.findAccount(destinationAccountNumber);
+        if (destinationAccount == null){
+            System.out.println("Invalid Account");
+            return;
+        }
+
+        // Check amount to be a number
+        if(!Utils.isNumericOnlyValid(amount)){
+            System.out.println("Invalid Amount");
+            return;
+        }
+
+        transferAmount = Integer.parseInt(amount);
+
+        // Check maximum amount
+        if(transferAmount > maxTransferAmount){
+            System.out.println("Maximum amount to withdraw is $1000");
+            return;
+        }
+
+        // Check minimum amount
+        if(transferAmount < minTransferAmount){
+            System.out.println("Minimum amount to withdraw is $1");
+            return;
+        }
+
+        if(account.getBalance() < transferAmount){
+            System.out.println("Insufficient balance $" + transferAmount);
+            return;
+        }
+
+        if(!referenceNo.isEmpty() && !Utils.isNumericOnlyValid(referenceNo)){
+            System.out.println("Invalid Reference Number");
+            return;
+        }
+
+        this.account.setBalance(this.account.getBalance() - transferAmount);
+        fundTransferSummaryScreen = new FundTransferSummaryScreen(this.account, this.scanner);
+        fundTransferSummaryScreen.start(destinationAccountNumber, transferAmount, referenceNo);
     }
 }

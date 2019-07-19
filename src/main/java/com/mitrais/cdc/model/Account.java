@@ -1,10 +1,10 @@
 package com.mitrais.cdc.model;
 
 public class Account {
-    String name;
-    String pin;
-    int balance;
-    String accountNumber;
+    private String name;
+    private String pin;
+    private int balance;
+    private String accountNumber;
 
     public Account(String name, String accountNumber, int balance, String pin) {
         this.name = name;

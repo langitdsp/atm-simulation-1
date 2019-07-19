@@ -6,26 +6,28 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class SummaryScreen {
+public class FundTransferSummaryScreen {
     private Account account;
     private Scanner scanner;
     private LocalDateTime dateNow;
 
-    public SummaryScreen(Account account, Scanner scanner) {
+    public FundTransferSummaryScreen(Account account, Scanner scanner) {
         this.account = account;
         this.scanner = scanner;
         this.dateNow = LocalDateTime.now();
     }
 
-    public void start(int withdraw) {
+    public void start(String destinationAccountNumber, int amount, String referenceNo) {
         int option;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
 
-        System.out.println("\n\nSummary");
-        System.out.println("Date : " + this.dateNow.format(formatter));
-        System.out.println("Withdraw : $" + withdraw);
-        System.out.println("Balance : $" + this.account.getBalance());
+        System.out.println("\n\nFund Transfer Summary");
+        System.out.printf("%-20s : %s %n", "Destination Account", destinationAccountNumber);
+        System.out.printf("%-20s : %d %n", "Transfer amount", amount);
+        System.out.printf("%-20s : %s %n", "Reference Number", referenceNo);
+        System.out.printf("%-20s : %s %n", "Balance", this.account.getBalance());
+
 
         System.out.println("\n1. Transaction");
         System.out.println("2. Exit");
