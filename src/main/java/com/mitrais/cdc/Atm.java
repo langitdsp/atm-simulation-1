@@ -16,12 +16,7 @@ public class Atm
     {
         Scanner scanner = new Scanner(System.in);
 
-        // Create initial data
-        ArrayList<Account> accounts = new ArrayList<Account>();
-        accounts.add(new Account("John Doe", "012108", 100, "112233"));
-        accounts.add(new Account("Jane Doe", "932012", 30, "112244"));
-
-        WelcomeScreen welcomeScreen = new WelcomeScreen(accounts, scanner);
+        WelcomeScreen welcomeScreen = new WelcomeScreen(scanner);
         
         welcomeScreen.start();
 
