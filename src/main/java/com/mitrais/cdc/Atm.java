@@ -1,10 +1,8 @@
 package com.mitrais.cdc;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.mitrais.cdc.model.Account;
-import com.mitrais.cdc.utils.Utils;
+import com.mitrais.cdc.screen.WelcomeScreen;
 
 /**
  * Hello world!
@@ -17,10 +15,12 @@ public class Atm
         Scanner scanner = new Scanner(System.in);
 
         WelcomeScreen welcomeScreen = new WelcomeScreen(scanner);
-        
-        welcomeScreen.start();
 
-        scanner.close();
+        while(true){
+            welcomeScreen.start();
+        }
+
+//        scanner.close();
     }
 
 }

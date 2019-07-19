@@ -1,4 +1,4 @@
-package com.mitrais.cdc;
+package com.mitrais.cdc.screen;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,16 +26,19 @@ public class WelcomeScreen {
         String pin = "";
         Account account = new Account();
 
+        System.out.println("\n\nWelcome...");
         // Enter account number
         System.out.println("Enter Account Number");
         accountNumber = this.scanner.nextLine();
 
         if (!Utils.isLengthValid(accountNumber)) {
             System.out.println("Account Number should have 6 digits number");
+            return;
         }
 
         if (!Utils.isNumericOnlyValid(accountNumber)) {
             System.out.println("Account Number should only contains numbers");
+            return;
         }
 
         // Enter account number
@@ -44,10 +47,12 @@ public class WelcomeScreen {
 
         if (!Utils.isLengthValid(pin)) {
             System.out.println("PIN should have 6 digits number");
+            return;
         }
 
         if (!Utils.isNumericOnlyValid(pin)) {
             System.out.println("PIN should only contains numbers");
+            return;
         }
 
         Boolean isFound = false;
@@ -60,6 +65,7 @@ public class WelcomeScreen {
 
         if (!isFound) {
             System.out.println("Invalid Account Number/PIN");
+            return;
         }
 
         TransactionScreen transactionScreen = new TransactionScreen(account, this.scanner);
