@@ -2,6 +2,7 @@ package com.mitrais.cdc.screen;
 
 import java.util.Scanner;
 
+import com.mitrais.cdc.exception.StopLoopException;
 import com.mitrais.cdc.model.Account;
 import com.mitrais.cdc.utils.Utils;
 
@@ -16,8 +17,8 @@ public class WithdrawScreen {
         this.summaryScreen = new SummaryScreen(account, scanner);
     }
 
-    public void start() {
-        int option;
+    public void start() throws StopLoopException  {
+        String option;
 
         System.out.println("\n\nWithdraw");
         System.out.println("1. $10");
@@ -25,13 +26,12 @@ public class WithdrawScreen {
         System.out.println("3. $100");
         System.out.println("4. Other");
         System.out.println("5. Back");
-        System.out.println(" Exit");
-        System.out.println("Please choose option[3]: ");
+        System.out.println("Please choose option[5]: ");
 
-        option = Integer.parseInt(this.scanner.nextLine());
+        option = this.scanner.nextLine();
 
         switch (option) {
-            case 1:
+            case "1":
                 if (this.account.getBalance() < 10) {
                     System.out.println("Insufficient balance $" + this.account.getBalance());
                     break;
@@ -39,7 +39,7 @@ public class WithdrawScreen {
                 this.account.setBalance(this.account.getBalance() - 10);
                 this.summaryScreen.start(10);
                 break;
-            case 2:
+            case "2":
                 if (this.account.getBalance() < 50) {
                     System.out.println("Insufficient balance $" + this.account.getBalance());
                     break;
@@ -48,7 +48,7 @@ public class WithdrawScreen {
                 this.account.setBalance(this.account.getBalance() - 50);
                 this.summaryScreen.start(50);
                 break;
-            case 3:
+            case "3":
                 if (this.account.getBalance() < 100) {
                     System.out.println("Insufficient balance $" + this.account.getBalance());
                     break;
@@ -56,10 +56,10 @@ public class WithdrawScreen {
                 this.account.setBalance(this.account.getBalance() - 100);
                 this.summaryScreen.start(100);
                 break;
-            case 4:
+            case "4":
                 otherWithdraw();
                 break;
-            case 5:
+            case "5":
                 break;
             default:
                 break;
@@ -67,7 +67,7 @@ public class WithdrawScreen {
         }
     }
 
-    public void otherWithdraw() {
+    public void otherWithdraw() throws StopLoopException {
 
         System.out.println("\n\nOther Withdraw");
         System.out.println("Enter amount to withdraw");

@@ -1,5 +1,6 @@
 package com.mitrais.cdc.screen;
 
+import com.mitrais.cdc.exception.StopLoopException;
 import com.mitrais.cdc.model.Account;
 
 import java.time.LocalDateTime;
@@ -17,8 +18,8 @@ public class SummaryScreen {
         this.dateNow = LocalDateTime.now();
     }
 
-    public void start(int withdraw) {
-        int option;
+    public void start(int withdraw) throws StopLoopException {
+        String option;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
 
@@ -31,17 +32,15 @@ public class SummaryScreen {
         System.out.println("2. Exit");
         System.out.println("Choose option[2]");
 
-        option = Integer.parseInt(this.scanner.nextLine());
+        option = this.scanner.nextLine();
 
         switch (option) {
-            case 1:
-                TransactionScreen transactionScreen = new TransactionScreen(account, this.scanner);
-                transactionScreen.start();
+            case "1":
                 break;
-            case 2:
-                break;
+            case "2":
+                throw new StopLoopException();
             default:
-                break;
+                throw new StopLoopException();
         }
     }
 }

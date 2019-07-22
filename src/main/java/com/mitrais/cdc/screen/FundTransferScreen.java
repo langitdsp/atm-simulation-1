@@ -1,6 +1,7 @@
 package com.mitrais.cdc.screen;
 
 import com.mitrais.cdc.data.Accounts;
+import com.mitrais.cdc.exception.StopLoopException;
 import com.mitrais.cdc.model.Account;
 import com.mitrais.cdc.utils.Utils;
 
@@ -19,11 +20,11 @@ public class FundTransferScreen {
         this.accounts = Accounts.getInstance();
     }
 
-    public void start(){
+    public void start() throws StopLoopException {
         String destinationAccountNumber = "";
         String amount = "";
         String referenceNo = "";
-        int option;
+        String option;
 
         System.out.println("\n\nFund Transfer...");
 
@@ -55,13 +56,13 @@ public class FundTransferScreen {
         System.out.println("2. Cancel Trx");
         System.out.println("Choose option[2]");
 
-        option = Integer.parseInt(this.scanner.nextLine());
+        option = this.scanner.nextLine();
 
         switch (option){
-            case 1:
+            case "1":
                 confirmTrx(destinationAccountNumber, amount, referenceNo);
                 break;
-            case 2:
+            case "2":
                 break;
             default:
                 break;
@@ -69,7 +70,7 @@ public class FundTransferScreen {
 
     }
 
-    private void confirmTrx(String destinationAccountNumber, String amount, String referenceNo){
+    private void confirmTrx(String destinationAccountNumber, String amount, String referenceNo) throws StopLoopException {
         FundTransferSummaryScreen fundTransferSummaryScreen;
 
         int transferAmount = 0;
