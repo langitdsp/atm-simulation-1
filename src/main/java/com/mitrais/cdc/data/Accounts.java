@@ -36,7 +36,7 @@ public class Accounts {
 
     private Accounts() {
         accounts = new ArrayList<Account>();
-        accounts.add(new Account("John Doe", "012108", 100, "112233"));
-        accounts.add(new Account("Jane Doe", "932012", 30, "112244"));
+        accounts.add(new Account("John Doe", "112233", 100, "012108"));
+        accounts.add(new Account("Jane Doe", "112244", 30, "932012"));
     }
 }
